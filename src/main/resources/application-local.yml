@@ -1,6 +1,10 @@
-spring.datasource:
-  url: jdbc:h2:mem:testdb
-  spring.datasource.driverClassName: org.h2.Driver
-  spring.datasource.username: sa
-  spring.datasource.password: password
-  jpa.database-platform: org.hibernate.dialect.H2Dialect
+spring:
+  datasource:
+    url: jdbc:h2:mem:wowtestdb
+    driverClassName: org.h2.Driver
+    username: sa
+    password: password
+  h2.console.enabled: true
+  jpa: 
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate.ddl-auto: update
