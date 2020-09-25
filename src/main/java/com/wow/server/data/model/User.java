@@ -40,6 +40,8 @@ public class User {
 	
 	String monthlyIncomeRange;
 	
+	String introduction;
+	
 	LocalDateTime creationDateTime;
 	
 	LocalDateTime updateDateTime;
@@ -121,6 +123,12 @@ public class User {
 	}
 	public void setMonthlyIncomeRange(String monthlyIncomeRange) {
 		this.monthlyIncomeRange = monthlyIncomeRange;
+	}
+	public String getIntroduction() {
+		return introduction;
+	}
+	public void setIntroduction(String introduction) {
+		this.introduction = introduction;
 	}
 	public LocalDateTime getCreationDateTime() {
 		return creationDateTime;
