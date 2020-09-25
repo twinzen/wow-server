@@ -10,4 +10,4 @@ spring:
       connection-timeout: 30000
       minimum-idle: 20
       maximum-pool-size: 300
-      max-lifetime: 180000
+      max-lifetime: 1800000
