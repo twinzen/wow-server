@@ -1,5 +1,6 @@
-package com.wow.server.datamodel;
+package com.wow.server.data.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
@@ -9,20 +10,23 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "TB_WATCH_ITEM")
-public class WatchItem {
+@Table(name = "TB_ORDER")
+public class Order {
 
 	@Id @GeneratedValue(strategy = GenerationType.AUTO)
-	Long watchItemId;
+	Long tradeId;
 	Long productId;
 	Long userId;
+	BigDecimal quantity;
+	BigDecimal orderPrice;
+	String orderStatus;
 	LocalDateTime creationDateTime;
 	LocalDateTime updateDateTime;
-	public Long getWatchItemId() {
-		return watchItemId;
+	public Long getTradeId() {
+		return tradeId;
 	}
-	public void setWatchItemId(Long watchItemId) {
-		this.watchItemId = watchItemId;
+	public void setTradeId(Long tradeId) {
+		this.tradeId = tradeId;
 	}
 	public Long getProductId() {
 		return productId;
@@ -35,6 +39,24 @@ public class WatchItem {
 	}
 	public void setUserId(Long userId) {
 		this.userId = userId;
+	}
+	public BigDecimal getQuantity() {
+		return quantity;
+	}
+	public void setQuantity(BigDecimal quantity) {
+		this.quantity = quantity;
+	}
+	public BigDecimal getOrderPrice() {
+		return orderPrice;
+	}
+	public void setOrderPrice(BigDecimal orderPrice) {
+		this.orderPrice = orderPrice;
+	}
+	public String getOrderStatus() {
+		return orderStatus;
+	}
+	public void setOrderStatus(String orderStatus) {
+		this.orderStatus = orderStatus;
 	}
 	public LocalDateTime getCreationDateTime() {
 		return creationDateTime;

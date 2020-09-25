@@ -1,4 +1,4 @@
-package com.wow.server.datamodel;
+package com.wow.server.data.model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

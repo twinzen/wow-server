@@ -1,4 +1,4 @@
-package com.wow.server.datamodel;
+package com.wow.server.data.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
