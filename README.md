@@ -1,17 +1,21 @@
-# hackademy2020
+hackademy2020
+----------------
 
-<h3>Local WOW server</h3>
-<p>http://127.0.0.1:8787/actuator/health<p>
-<p>http://127.0.0.1:8787/hello<p>
+### Local WOW server
+http://127.0.0.1:8787/actuator/health  
+http://127.0.0.1:8787/hello  
+http://127.0.0.1:8787/swagger-ui.html  
+http://127.0.0.1:8787/api-docs.yaml
 
-<h3>GCP WOW server</h3>
-<p>http://34.72.176.159:8787/actuator/health<p>
-<p>http://34.72.176.159:8787/hello<p>
-<p>WOW App log -> /appvol/wow/out*.log</p>
+### GCP WOW server
+http://34.72.176.159:8787/actuator/health  
+http://34.72.176.159:8787/hello  
+http://34.72.176.159:8787/swagger-ui.html  
+http://34.72.176.159:8787/api-docs.yaml  
+WOW App log -> `/appvol/wow/out*.log`
 
-<h3>Jenkins</h3>
-<p>http://34.72.176.159:8081/job/WOW/</p>
-<p>sudo /etc/init.d/jenkins start</p>
-<p>sudo /etc/init.d/jenkins restart</p>
-<p>/var/log/jenkins/jenkins.log</p>
-
+### Jenkins
+http://34.72.176.159:8081/job/WOW/  
+```sudo /etc/init.d/jenkins start```  
+```sudo /etc/init.d/jenkins restart```  
+`/var/log/jenkins/jenkins.log`
