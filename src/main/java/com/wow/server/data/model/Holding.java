@@ -1,13 +1,8 @@
 package com.wow.server.data.model;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
 @Entity
 @Table(name = "TB_HOLDING")
@@ -83,5 +78,5 @@ public class Holding {
 	public void setUpdateDateTime(LocalDateTime updateDateTime) {
 		this.updateDateTime = updateDateTime;
 	}
-	
+
 }
