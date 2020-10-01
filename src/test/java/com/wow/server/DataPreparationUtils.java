@@ -3,10 +3,12 @@ package com.wow.server;
 import com.wow.server.data.model.Holding;
 import com.wow.server.data.model.Product;
 import com.wow.server.data.model.User;
+import com.wow.server.data.model.WatchItem;
 import com.wow.server.data.projection.UserMinimalProjection;
 import com.wow.server.data.repository.HoldingRepository;
 import com.wow.server.data.repository.ProductRepository;
 import com.wow.server.data.repository.UserRepository;
+import com.wow.server.data.repository.WatchItemRepository;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.math.BigDecimal;
@@ -74,5 +76,21 @@ public final class DataPreparationUtils {
 
     private static UserMinimalProjection prepareMinimalUser(long userId) {
         return new UserMinimalProjection(userId, "display-name-of-user" + userId);
+    }
+
+    public static void mockWatchItemRepositoryResponse(
+            long userId, List<Pair<Long, Long>> productIds, WatchItemRepository watchItemRepository) {
+        List<WatchItem> watchItems = productIds.stream()
+                .map(holdingProductId -> {
+                    WatchItem watchItem = new WatchItem();
+                    watchItem.setUserId(userId);
+                    watchItem.setWatchItemId(holdingProductId.getLeft());
+                    watchItem.setProductId(holdingProductId.getRight());
+                    watchItem.setCreationDateTime(LocalDateTime.now());
+                    watchItem.setUpdateDateTime(LocalDateTime.now());
+                    return watchItem;
+                })
+                .collect(Collectors.toList());
+        when(watchItemRepository.findAllByUserId(userId)).thenReturn(watchItems);
     }
 }
