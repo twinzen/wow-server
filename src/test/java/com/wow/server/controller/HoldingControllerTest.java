@@ -1,9 +1,6 @@
 package com.wow.server.controller;
 
-import com.google.common.io.Resources;
-import com.wow.server.data.model.Holding;
-import com.wow.server.data.model.Product;
-import com.wow.server.data.model.User;
+import com.wow.server.DataPreparationUtils;
 import com.wow.server.data.repository.HoldingRepository;
 import com.wow.server.data.repository.ProductRepository;
 import com.wow.server.data.repository.UserRepository;
@@ -20,21 +17,15 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.ResultActions;
 
-import java.math.BigDecimal;
-import java.nio.charset.StandardCharsets;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.when;
+import static org.hamcrest.Matchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureMockMvc
@@ -54,67 +45,33 @@ public class HoldingControllerTest {
     private ProductRepository productRepository;
 
     @Test
-    public void endpointCanReturnDataSuccessfully() throws Exception {
+    public void endpoint_can_return_data_successfully() throws Exception {
         // given
-        String expected = Resources.toString(
-                Resources.getResource("messageBodies/holdingsGetByUserIdResponseSuccess.json"),
-                StandardCharsets.UTF_8);
         long userId = 1L;
         List<Pair<Long, Long>> productIds = Lists.newArrayList(
                 ImmutablePair.of(1L, 34567L),
                 ImmutablePair.of(2L, 34568L));
-        mockUserRepositoryResponse(userId);
-        mockHoldingRepositoryResponse(userId, productIds);
-        mockProductRepositoryResponse(productIds);
+        DataPreparationUtils.mockUserRepositoryResponse(userId, userRepository);
+        DataPreparationUtils.mockHoldingRepositoryResponse(userId, productIds, holdingRepository);
+        DataPreparationUtils.mockProductRepositoryResponse(productIds, productRepository);
 
         // when
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/holdings/{userid}", userId)
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andReturn();
+        ResultActions result = mockMvc.perform(get("/api/holdings/{userid}", userId)
+                .accept(MediaType.APPLICATION_JSON));
 
         // then
-        String resultDOW = result.getResponse().getContentAsString();
-        assertNotNull(resultDOW);
-        assertEquals(expected, resultDOW);
-    }
-
-    private void mockProductRepositoryResponse(List<Pair<Long, Long>> productIds) {
-        List<Product> products = productIds.stream()
-                .map(Pair::getRight)
-                .map(productId -> {
-                    Product product = new Product();
-                    product.setProductId(productId);
-                    product.setProductName("Some product " + productId);
-                    product.setProductCode(String.valueOf(productId));
-                    return product;
-                })
-                .collect(Collectors.toList());
-        when(productRepository.findAllByProductIdIn(productIds.stream()
-                .map(Pair::getRight)
-                .collect(Collectors.toSet()))).thenReturn(products);
-    }
-
-    private void mockHoldingRepositoryResponse(long userId, List<Pair<Long, Long>> productIds) {
-        List<Holding> holdings = productIds.stream()
-                .map(holdingProductId -> {
-                    Holding holding = new Holding();
-                    holding.setUserId(userId);
-                    holding.setHoldingId(holdingProductId.getLeft());
-                    holding.setProductId(holdingProductId.getRight());
-                    holding.setQuantity(BigDecimal.valueOf(holdingProductId.getRight() / 100));
-                    holding.setCreationDateTime(LocalDateTime.now());
-                    holding.setUpdateDateTime(LocalDateTime.now());
-                    return holding;
-                })
-                .collect(Collectors.toList());
-        when(holdingRepository.findAllByUserId(userId)).thenReturn(holdings);
-    }
-
-    private void mockUserRepositoryResponse(long userId) {
-        User user = new User();
-        user.setUserId(userId);
-        when(userRepository.findById(userId)).thenReturn(Optional.of(user));
+        result
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", notNullValue()))
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[*].holdingId", everyItem(in(productIds.stream()
+                        .map(Pair::getLeft)
+                        .map(Long::intValue)
+                        .collect(Collectors.toList())))))
+                .andExpect(jsonPath("$[*].product.productId", everyItem(in(productIds.stream()
+                        .map(Pair::getRight)
+                        .map(Long::intValue)
+                        .collect(Collectors.toList())))));
     }
 
 }
