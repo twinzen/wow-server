@@ -53,7 +53,9 @@ public class HoldingControllerTest {
                 ImmutablePair.of(2L, 34568L));
         DataPreparationUtils.mockUserRepositoryResponse(userId, userRepository);
         DataPreparationUtils.mockHoldingRepositoryResponse(userId, productIds, holdingRepository);
-        DataPreparationUtils.mockProductRepositoryResponse(productIds, productRepository);
+        DataPreparationUtils.mockProductRepositoryResponse(productIds.stream()
+                .map(Pair::getRight)
+                .collect(Collectors.toSet()), productRepository);
 
         // when
         ResultActions result = mockMvc.perform(get("/api/holdings/{userid}", userId)
