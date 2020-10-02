@@ -15,6 +15,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
@@ -26,9 +27,8 @@ public final class DataPreparationUtils {
     }
 
     public static void mockProductRepositoryResponse(
-            List<Pair<Long, Long>> productIds, ProductRepository productRepository) {
+            Set<Long> productIds, ProductRepository productRepository) {
         List<Product> products = productIds.stream()
-                .map(Pair::getRight)
                 .map(productId -> {
                     Product product = new Product();
                     product.setProductId(productId);
@@ -37,9 +37,7 @@ public final class DataPreparationUtils {
                     return product;
                 })
                 .collect(Collectors.toList());
-        when(productRepository.findAllByProductIdIn(productIds.stream()
-                .map(Pair::getRight)
-                .collect(Collectors.toSet()))).thenReturn(products);
+        when(productRepository.findAllByProductIdIn(productIds)).thenReturn(products);
     }
 
     public static void mockHoldingRepositoryResponse(

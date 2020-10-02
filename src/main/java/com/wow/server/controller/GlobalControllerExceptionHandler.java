@@ -1,6 +1,7 @@
 package com.wow.server.controller;
 
 import com.wow.server.dto.ErrorDTO;
+import com.wow.server.exception.BadRequestException;
 import com.wow.server.exception.DataNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,12 @@ public class GlobalControllerExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(DataNotFoundException.class)
     public ErrorDTO handleNotFoundError(DataNotFoundException exception) {
+        return new ErrorDTO(exception.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(BadRequestException.class)
+    public ErrorDTO handleBadRequestError(BadRequestException exception) {
         return new ErrorDTO(exception.getMessage());
     }
 
