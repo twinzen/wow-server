@@ -11,19 +11,18 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Slf4j
 @ControllerAdvice
+@ResponseBody
 public class GlobalControllerExceptionHandler {
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(DataNotFoundException.class)
-    @ResponseBody
     public ErrorDTO handleNotFoundError(DataNotFoundException exception) {
         return new ErrorDTO(exception.getMessage());
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
-    @ResponseBody
-    public ErrorDTO handleNotFoundError(Exception e) {
+    public ErrorDTO handleInternalServerError(Exception e) {
         log.error(e.getMessage(), e);
         return new ErrorDTO("Internal server error. Please contact system administrator.");
     }

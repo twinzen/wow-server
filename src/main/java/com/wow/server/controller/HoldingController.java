@@ -1,6 +1,5 @@
 package com.wow.server.controller;
 
-import com.google.common.collect.Lists;
 import com.wow.server.data.model.Holding;
 import com.wow.server.data.model.Product;
 import com.wow.server.data.model.User;
@@ -12,16 +11,15 @@ import com.wow.server.dto.ProductDTO;
 import com.wow.server.exception.DataNotFoundException;
 import com.wow.server.mapper.HoldingMapper;
 import com.wow.server.mapper.ProductMapper;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -29,6 +27,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @RestController
 @RequestMapping("/api/holdings/")
+@Tag(name = "Holdings API")
 public class HoldingController {
 
     private final UserRepository userRepository;
@@ -52,7 +51,8 @@ public class HoldingController {
     }
 
     @GetMapping("/{userId:\\d+}")
-    public ResponseEntity<List<HoldingDTO>> getHoldingDTOsByUserId(@PathVariable(name = "userId") Long userId) {
+    @Operation(summary = "Returns HoldingsDTO list for given user ID")
+    public List<HoldingDTO> getHoldingDTOsByUserId(@PathVariable(name = "userId") Long userId) {
         Optional<User> user = userRepository.findById(userId);
         if (!user.isPresent()) {
             String message = String.format("User with id %d doesn't exist", userId);
@@ -66,13 +66,13 @@ public class HoldingController {
                 .collect(Collectors.toSet());
 
         if (productIdList.isEmpty()) {
-            return ResponseEntity.ok(Collections.emptyList());
+            return Collections.emptyList();
         }
 
         List<Product> productList = productRepository.findAllByProductIdIn(productIdList);
 
         if (productList.isEmpty()) {
-            return ResponseEntity.ok(Collections.emptyList());
+            return (Collections.emptyList());
         }
 
         List<HoldingDTO> holdingDTOList = holdingMapper.toHoldingDTOs(holdingList);
@@ -81,7 +81,7 @@ public class HoldingController {
 
         holdingDTOList.forEach(holdingDTO -> holdingDTO.setProduct(productDTOMap.get(holdingDTO.getProductId())));
 
-        return ResponseEntity.ok(holdingDTOList);
+        return holdingDTOList;
     }
 
 }

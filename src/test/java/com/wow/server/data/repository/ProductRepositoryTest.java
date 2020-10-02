@@ -13,8 +13,9 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 
 @DataJpaTest
 @ActiveProfiles("test")
@@ -38,9 +39,9 @@ public class ProductRepositoryTest {
                 .collect(Collectors.toMap(Product::getProductId, Function.identity()));
         productList.forEach(product -> {
             Product originalProduct = productMap.get(product.getProductId());
-            assertNotNull(originalProduct);
-            assertEquals(originalProduct.getProductCode(), product.getProductCode());
-            assertEquals(originalProduct.getProductName(), product.getProductName());
+            assertThat(originalProduct, notNullValue());
+            assertThat(originalProduct.getProductCode(), is(product.getProductCode()));
+            assertThat(originalProduct.getProductName(), is(product.getProductName()));
         });
     }
 
