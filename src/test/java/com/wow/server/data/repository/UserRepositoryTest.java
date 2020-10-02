@@ -25,6 +25,7 @@ public class UserRepositoryTest {
     @Test
     public void user_projection_can_be_constructed_for_existing_user() {
         // given
+        int initialSize = (int) userRepository.count();
         String displayName = "test-user";
         Long userId = prepareUser(displayName);
 
@@ -33,7 +34,7 @@ public class UserRepositoryTest {
 
         // then
         assertThat(userProjections, notNullValue());
-        assertThat(userProjections, hasSize(1));
+        assertThat(userProjections, hasSize(initialSize + 1));
         assertThat(userProjections, hasItem(Matchers.<UserMinimalProjection>hasProperty(
                 "userId", is(userId))));
         assertThat(userProjections, hasItem(Matchers.<UserMinimalProjection>hasProperty(
