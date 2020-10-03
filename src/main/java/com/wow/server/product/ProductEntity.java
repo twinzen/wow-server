@@ -1,4 +1,4 @@
-package com.wow.server.data.model;
+package com.wow.server.product;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +16,7 @@ import javax.persistence.Table;
 @Table(name = "TB_PRODUCT")
 @Getter
 @Setter
-public class Product {
+public class ProductEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

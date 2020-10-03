@@ -1,7 +1,5 @@
 package com.wow.server.user;
 
-import com.wow.server.data.projection.UserMinimalProjection;
-import com.wow.server.user.UserMinimalDTO;
 import org.mapstruct.Mapper;
 
 import java.util.List;

@@ -1,15 +1,15 @@
 package com.wow.server.api;
 
-import com.wow.server.data.model.Holding;
-import com.wow.server.data.model.Product;
-import com.wow.server.data.repository.HoldingRepository;
-import com.wow.server.data.repository.ProductRepository;
-import com.wow.server.data.repository.UserRepository;
-import com.wow.server.dto.HoldingDTO;
-import com.wow.server.dto.ProductDTO;
+import com.wow.server.holding.HoldingEntity;
+import com.wow.server.product.ProductEntity;
+import com.wow.server.holding.HoldingRepository;
+import com.wow.server.product.ProductRepository;
+import com.wow.server.user.UserRepository;
+import com.wow.server.holding.HoldingDTO;
+import com.wow.server.product.ProductDTO;
 import com.wow.server.exception.DataNotFoundException;
-import com.wow.server.mapper.HoldingMapper;
-import com.wow.server.mapper.ProductMapper;
+import com.wow.server.holding.HoldingMapper;
+import com.wow.server.product.ProductMapper;
 import com.wow.server.user.UserEntity;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -60,17 +60,17 @@ public class HoldingController {
             throw new DataNotFoundException(message);
         }
 
-        List<Holding> holdingList = holdingRepository.findAllByUserId(userId);
-        Set<Long> productIdList = holdingList.stream()
-                .map(Holding::getProductId)
+        List<HoldingEntity> holdingEntityList = holdingRepository.findAllByUserId(userId);
+        Set<Long> productIdList = holdingEntityList.stream()
+                .map(HoldingEntity::getProductId)
                 .collect(Collectors.toSet());
 
         if (productIdList.isEmpty()) {
             return Collections.emptyList();
         }
 
-        List<Product> productList = productRepository.findAllByProductIdIn(productIdList);
-        if (productList.isEmpty() && !holdingList.isEmpty()) {
+        List<ProductEntity> productEntityList = productRepository.findAllByProductIdIn(productIdList);
+        if (productEntityList.isEmpty() && !holdingEntityList.isEmpty()) {
             String message = String.format(
                     "Can't find Products for following productIds: %s", productIdList.stream()
                             .map(String::valueOf)
@@ -78,8 +78,8 @@ public class HoldingController {
             throw new IllegalStateException(message);
         }
 
-        List<HoldingDTO> holdingDTOList = holdingMapper.toHoldingDTOs(holdingList);
-        Map<Long, ProductDTO> productDTOMap = productMapper.toProductDTOs(productList).stream()
+        List<HoldingDTO> holdingDTOList = holdingMapper.toHoldingDTOs(holdingEntityList);
+        Map<Long, ProductDTO> productDTOMap = productMapper.toProductDTOs(productEntityList).stream()
                 .collect(Collectors.toMap(ProductDTO::getProductId, Function.identity()));
 
         holdingDTOList.forEach(holdingDTO -> holdingDTO.setProduct(productDTOMap.get(holdingDTO.getProductId())));

@@ -1,6 +1,6 @@
 package com.wow.server.api;
 
-import com.wow.server.data.repository.UserRepository;
+import com.wow.server.user.UserRepository;
 import com.wow.server.exception.DataNotFoundException;
 import com.wow.server.user.*;
 import com.wow.server.user.following.FollowerInformationDTO;

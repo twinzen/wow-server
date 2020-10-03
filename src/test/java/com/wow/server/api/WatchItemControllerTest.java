@@ -1,8 +1,8 @@
 package com.wow.server.api;
 
 import com.wow.server.DataPreparationUtils;
-import com.wow.server.data.repository.ProductRepository;
-import com.wow.server.data.repository.UserRepository;
+import com.wow.server.product.ProductRepository;
+import com.wow.server.user.UserRepository;
 import com.wow.server.watchitem.WatchItemMapperImpl;
 import com.wow.server.watchitem.WatchItemRepository;
 import com.wow.server.mapper.ProductMapperImpl;

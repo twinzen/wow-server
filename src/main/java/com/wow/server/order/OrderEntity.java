@@ -1,4 +1,4 @@
-package com.wow.server.data.model;
+package com.wow.server.order;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +16,7 @@ import javax.persistence.Table;
 @Table(name = "TB_ORDER")
 @Getter
 @Setter
-public class Order {
+public class OrderEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

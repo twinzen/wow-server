@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.common.collect.Sets;
 import com.wow.server.DataPreparationUtils;
-import com.wow.server.data.repository.ProductRepository;
+import com.wow.server.product.ProductRepository;
 import com.wow.server.mapper.ProductMapperImpl;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

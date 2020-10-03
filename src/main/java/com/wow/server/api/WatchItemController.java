@@ -1,11 +1,11 @@
 package com.wow.server.api;
 
-import com.wow.server.data.model.Product;
-import com.wow.server.data.repository.ProductRepository;
-import com.wow.server.data.repository.UserRepository;
-import com.wow.server.dto.ProductDTO;
+import com.wow.server.product.ProductEntity;
+import com.wow.server.product.ProductRepository;
+import com.wow.server.user.UserRepository;
+import com.wow.server.product.ProductDTO;
 import com.wow.server.exception.DataNotFoundException;
-import com.wow.server.mapper.ProductMapper;
+import com.wow.server.product.ProductMapper;
 import com.wow.server.user.UserEntity;
 import com.wow.server.watchitem.WatchItemDTO;
 import com.wow.server.watchitem.WatchItemEntity;
@@ -52,8 +52,8 @@ public class WatchItemController {
             return Collections.emptyList();
         }
 
-        List<Product> productList = productRepository.findAllByProductIdIn(productIdList);
-        if (productList.isEmpty() && !watchItemEntityList.isEmpty()) {
+        List<ProductEntity> productEntityList = productRepository.findAllByProductIdIn(productIdList);
+        if (productEntityList.isEmpty() && !watchItemEntityList.isEmpty()) {
             String message = String.format(
                     "Can't find Products for following productIds: %s", productIdList.stream()
                             .map(String::valueOf)
@@ -62,7 +62,7 @@ public class WatchItemController {
         }
 
         List<WatchItemDTO> watchItemDTOList = watchItemMapper.toWatchItemDTOs(watchItemEntityList);
-        Map<Long, ProductDTO> productDTOMap = productMapper.toProductDTOs(productList).stream()
+        Map<Long, ProductDTO> productDTOMap = productMapper.toProductDTOs(productEntityList).stream()
                 .collect(Collectors.toMap(ProductDTO::getProductId, Function.identity()));
 
         watchItemDTOList.forEach(watchItemDTO ->
@@ -132,10 +132,10 @@ public class WatchItemController {
         return user.get();
     }
 
-    private Product getProduct(
+    private ProductEntity getProduct(
             Long productId
     ) {
-        Optional<Product> product = productRepository.findById(productId);
+        Optional<ProductEntity> product = productRepository.findById(productId);
         if (!product.isPresent()) {
             String message = String.format("Product with id %d doesn't exist", productId);
             log.error(message);

@@ -1,9 +1,9 @@
 package com.wow.server.api;
 
-import com.wow.server.data.repository.ProductRepository;
-import com.wow.server.dto.ProductDTO;
+import com.wow.server.product.ProductRepository;
+import com.wow.server.product.ProductDTO;
 import com.wow.server.exception.BadRequestException;
-import com.wow.server.mapper.ProductMapper;
+import com.wow.server.product.ProductMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;

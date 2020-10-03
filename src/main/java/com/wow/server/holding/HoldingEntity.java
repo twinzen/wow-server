@@ -1,4 +1,4 @@
-package com.wow.server.data.model;
+package com.wow.server.holding;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Table(name = "TB_HOLDING")
 @Getter
 @Setter
-public class Holding {
+public class HoldingEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

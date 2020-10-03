@@ -1,9 +1,9 @@
 package com.wow.server.api;
 
 import com.wow.server.DataPreparationUtils;
-import com.wow.server.data.repository.HoldingRepository;
-import com.wow.server.data.repository.ProductRepository;
-import com.wow.server.data.repository.UserRepository;
+import com.wow.server.holding.HoldingRepository;
+import com.wow.server.product.ProductRepository;
+import com.wow.server.user.UserRepository;
 import com.wow.server.mapper.HoldingMapperImpl;
 import com.wow.server.mapper.ProductMapperImpl;
 import org.apache.commons.lang3.tuple.ImmutablePair;

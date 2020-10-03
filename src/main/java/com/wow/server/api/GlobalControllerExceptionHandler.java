@@ -1,6 +1,6 @@
 package com.wow.server.api;
 
-import com.wow.server.dto.ErrorDTO;
+import com.wow.server.common.ErrorDTO;
 import com.wow.server.exception.BadRequestException;
 import com.wow.server.exception.DataNotFoundException;
 import lombok.extern.slf4j.Slf4j;

@@ -1,11 +1,11 @@
 package com.wow.server;
 
-import com.wow.server.data.model.Holding;
-import com.wow.server.data.model.Product;
-import com.wow.server.data.projection.UserMinimalProjection;
-import com.wow.server.data.repository.HoldingRepository;
-import com.wow.server.data.repository.ProductRepository;
-import com.wow.server.data.repository.UserRepository;
+import com.wow.server.holding.HoldingEntity;
+import com.wow.server.product.ProductEntity;
+import com.wow.server.user.UserMinimalProjection;
+import com.wow.server.holding.HoldingRepository;
+import com.wow.server.product.ProductRepository;
+import com.wow.server.user.UserRepository;
 import com.wow.server.user.UserEntity;
 import com.wow.server.watchitem.WatchItemEntity;
 import com.wow.server.watchitem.WatchItemRepository;
@@ -28,33 +28,33 @@ public final class DataPreparationUtils {
 
     public static void mockProductRepositoryResponse(
             Set<Long> productIds, ProductRepository productRepository) {
-        List<Product> products = productIds.stream()
+        List<ProductEntity> productEntities = productIds.stream()
                 .map(productId -> {
-                    Product product = new Product();
-                    product.setProductId(productId);
-                    product.setProductName("Some product " + productId);
-                    product.setProductCode(String.valueOf(productId));
-                    return product;
+                    ProductEntity productEntity = new ProductEntity();
+                    productEntity.setProductId(productId);
+                    productEntity.setProductName("Some product " + productId);
+                    productEntity.setProductCode(String.valueOf(productId));
+                    return productEntity;
                 })
                 .collect(Collectors.toList());
-        when(productRepository.findAllByProductIdIn(productIds)).thenReturn(products);
+        when(productRepository.findAllByProductIdIn(productIds)).thenReturn(productEntities);
     }
 
     public static void mockHoldingRepositoryResponse(
             long userId, List<Pair<Long, Long>> productIds, HoldingRepository holdingRepository) {
-        List<Holding> holdings = productIds.stream()
+        List<HoldingEntity> holdingEntities = productIds.stream()
                 .map(holdingProductId -> {
-                    Holding holding = new Holding();
-                    holding.setUserId(userId);
-                    holding.setHoldingId(holdingProductId.getLeft());
-                    holding.setProductId(holdingProductId.getRight());
-                    holding.setQuantity(BigDecimal.valueOf(holdingProductId.getRight() / 100));
-                    holding.setCreationDateTime(LocalDateTime.now());
-                    holding.setUpdateDateTime(LocalDateTime.now());
-                    return holding;
+                    HoldingEntity holdingEntity = new HoldingEntity();
+                    holdingEntity.setUserId(userId);
+                    holdingEntity.setHoldingId(holdingProductId.getLeft());
+                    holdingEntity.setProductId(holdingProductId.getRight());
+                    holdingEntity.setQuantity(BigDecimal.valueOf(holdingProductId.getRight() / 100));
+                    holdingEntity.setCreationDateTime(LocalDateTime.now());
+                    holdingEntity.setUpdateDateTime(LocalDateTime.now());
+                    return holdingEntity;
                 })
                 .collect(Collectors.toList());
-        when(holdingRepository.findAllByUserId(userId)).thenReturn(holdings);
+        when(holdingRepository.findAllByUserId(userId)).thenReturn(holdingEntities);
     }
 
     public static void mockUserRepositoryResponse(long userId, UserRepository userRepository) {

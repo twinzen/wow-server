@@ -1,6 +1,6 @@
-package com.wow.server.data.repository;
+package com.wow.server.user;
 
-import com.wow.server.data.projection.UserMinimalProjection;
+import com.wow.server.user.UserMinimalProjection;
 import com.wow.server.user.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
