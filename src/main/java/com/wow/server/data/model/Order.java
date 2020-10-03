@@ -18,13 +18,14 @@ import javax.persistence.Table;
 @Setter
 public class Order {
 
-	@Id @GeneratedValue(strategy = GenerationType.AUTO)
-	Long tradeId;
-	Long productId;
-	Long userId;
-	BigDecimal quantity;
-	BigDecimal orderPrice;
-	String orderStatus;
-	LocalDateTime creationDateTime;
-	LocalDateTime updateDateTime;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    Long tradeId;
+    Long productId;
+    Long userId;
+    BigDecimal quantity;
+    BigDecimal orderPrice;
+    String orderStatus;
+    LocalDateTime creationDateTime;
+    LocalDateTime updateDateTime;
 }

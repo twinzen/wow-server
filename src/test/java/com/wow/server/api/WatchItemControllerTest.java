@@ -1,11 +1,11 @@
-package com.wow.server.controller;
+package com.wow.server.api;
 
 import com.wow.server.DataPreparationUtils;
-import com.wow.server.data.repository.HoldingRepository;
 import com.wow.server.data.repository.ProductRepository;
 import com.wow.server.data.repository.UserRepository;
-import com.wow.server.mapper.HoldingMapperImpl;
+import com.wow.server.data.repository.WatchItemRepository;
 import com.wow.server.mapper.ProductMapperImpl;
+import com.wow.server.mapper.WatchItemMapperImpl;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.assertj.core.util.Lists;
@@ -29,10 +29,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureMockMvc
-@ContextConfiguration(classes = {HoldingController.class, HoldingMapperImpl.class, ProductMapperImpl.class})
+@ContextConfiguration(classes = {
+        WatchItemController.class,
+        WatchItemMapperImpl.class,
+        ProductMapperImpl.class})
 @WebMvcTest
 @ActiveProfiles("test")
-public class HoldingControllerTest {
+public class WatchItemControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -40,7 +43,7 @@ public class HoldingControllerTest {
     @MockBean
     private UserRepository userRepository;
     @MockBean
-    private HoldingRepository holdingRepository;
+    private WatchItemRepository watchItemRepository;
     @MockBean
     private ProductRepository productRepository;
 
@@ -52,13 +55,13 @@ public class HoldingControllerTest {
                 ImmutablePair.of(1L, 34567L),
                 ImmutablePair.of(2L, 34568L));
         DataPreparationUtils.mockUserRepositoryResponse(userId, userRepository);
-        DataPreparationUtils.mockHoldingRepositoryResponse(userId, productIds, holdingRepository);
+        DataPreparationUtils.mockWatchItemRepositoryResponse(userId, productIds, watchItemRepository);
         DataPreparationUtils.mockProductRepositoryResponse(productIds.stream()
                 .map(Pair::getRight)
                 .collect(Collectors.toSet()), productRepository);
 
         // when
-        ResultActions result = mockMvc.perform(get("/api/holdings/{userid}", userId)
+        ResultActions result = mockMvc.perform(get("/api/watchitems/{userid}", userId)
                 .accept(MediaType.APPLICATION_JSON));
 
         // then
@@ -67,7 +70,7 @@ public class HoldingControllerTest {
                 .andExpect(jsonPath("$", notNullValue()))
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[*].userId", contains(1, 1)))
-                .andExpect(jsonPath("$[*].holdingId", everyItem(in(productIds.stream()
+                .andExpect(jsonPath("$[*].watchItemId", everyItem(in(productIds.stream()
                         .map(Pair::getLeft)
                         .map(Long::intValue)
                         .collect(Collectors.toList())))))
