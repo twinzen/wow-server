@@ -1,6 +1,6 @@
 package com.wow.server.watchitem;
 
-import com.wow.server.dto.ProductDTO;
+import com.wow.server.product.ProductDTO;
 import lombok.Data;
 
 @Data

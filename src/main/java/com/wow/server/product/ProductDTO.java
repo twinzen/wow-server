@@ -1,4 +1,4 @@
-package com.wow.server.dto;
+package com.wow.server.product;
 
 import lombok.Data;
 

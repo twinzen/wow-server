@@ -1,6 +1,5 @@
-package com.wow.server.data.repository;
+package com.wow.server.holding;
 
-import com.wow.server.data.model.Holding;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -8,9 +7,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface HoldingRepository extends JpaRepository<Holding, Long> {
+public interface HoldingRepository extends JpaRepository<HoldingEntity, Long> {
 
     @Query
-    List<Holding> findAllByUserId(Long userId);
+    List<HoldingEntity> findAllByUserId(Long userId);
 
 }

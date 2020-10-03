@@ -1,19 +1,18 @@
-package com.wow.server.data.model;
+package com.wow.server.user;
 
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-
-import javax.persistence.*;
 
 @Entity
 @Table(name = "TB_USER")
 @Getter
 @Setter
-public class User {
+public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,10 +39,10 @@ public class User {
             joinColumns = @JoinColumn(name = "userId"),
             inverseJoinColumns = @JoinColumn(name = "followerId")
     )
-    public List<User> following;
+    public List<UserEntity> following;
 
 
     @ManyToMany(mappedBy = "following", fetch = FetchType.LAZY)
-    public List<User> followers;
+    public List<UserEntity> followers;
 
 }

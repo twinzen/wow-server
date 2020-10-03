@@ -1,5 +1,6 @@
-package com.wow.server.dto;
+package com.wow.server.holding;
 
+import com.wow.server.product.ProductDTO;
 import lombok.Data;
 
 import java.math.BigDecimal;

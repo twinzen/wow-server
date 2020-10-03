@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.common.collect.Sets;
 import com.wow.server.DataPreparationUtils;
-import com.wow.server.data.repository.ProductRepository;
-import com.wow.server.mapper.ProductMapperImpl;
+import com.wow.server.product.ProductMapperImpl;
+import com.wow.server.product.ProductRepository;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureMockMvc
-@ContextConfiguration(classes = {ProductController.class, ProductMapperImpl.class})
+@ContextConfiguration(classes = {
+        ProductController.class,
+        ProductMapperImpl.class
+})
 @WebMvcTest
 @ActiveProfiles("test")
 public class ProductControllerTest {

@@ -1,25 +1,26 @@
-package com.wow.server.user.following;
+package com.wow.server.holding;
 
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "TB_FOLLOW")
+@Table(name = "TB_HOLDING")
 @Getter
 @Setter
-public class FollowEntity {
+public class HoldingEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long followId;
-
+    private Long holdingId;
+    private Long productId;
     private Long userId;
-
-    private Long followerId;
-
+    private BigDecimal quantity;
+    private BigDecimal avgPurchasePrice;
     private LocalDateTime creationDateTime;
     private LocalDateTime updateDateTime;
+
 }
