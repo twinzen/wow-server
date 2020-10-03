@@ -2,9 +2,9 @@ package com.wow.server.api;
 
 import com.wow.server.DataPreparationUtils;
 import com.wow.server.data.repository.UserRepository;
+import com.wow.server.user.UserMapperImpl;
+import com.wow.server.user.UserMinimalMapperImpl;
 import com.wow.server.user.following.FollowerInformationMapperImpl;
-import com.wow.server.mapper.UserMapperImpl;
-import com.wow.server.mapper.UserMinimalMapperImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

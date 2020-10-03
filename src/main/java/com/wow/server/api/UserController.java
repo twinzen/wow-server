@@ -1,14 +1,10 @@
 package com.wow.server.api;
 
-import com.wow.server.data.model.User;
 import com.wow.server.data.repository.UserRepository;
-import com.wow.server.dto.UserDTO;
-import com.wow.server.dto.UserMinimalDTO;
 import com.wow.server.exception.DataNotFoundException;
+import com.wow.server.user.*;
 import com.wow.server.user.following.FollowerInformationDTO;
 import com.wow.server.user.following.FollowerInformationMapper;
-import com.wow.server.mapper.UserMapper;
-import com.wow.server.mapper.UserMinimalMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -43,13 +39,13 @@ public class UserController {
     @Operation(summary = "Returns detailed user representation by userID")
     public UserDTO getUserById(@PathVariable Long userId) {
 
-        return userMapper.toUserDTO(retrieveUser(userId));
+        return userMapper.toUserDTO(retrieveUserEntity(userId));
     }
 
     @GetMapping("/{userId:\\d+}/following")
     @Operation(summary = "Returns list of users followed by user with specified userId")
     public List<FollowerInformationDTO>  getFollowedUsersOf(@PathVariable Long userId) {
-        return followerInformationMapper.toFollowerInformationDTOs(retrieveUser(userId).getFollowing());
+        return followerInformationMapper.toFollowerInformationDTOs(retrieveUserEntity(userId).getFollowing());
 
     }
 
@@ -57,13 +53,13 @@ public class UserController {
     @GetMapping("/{userId:\\d+}/followers")
     @Operation(summary = "Returns list of users following specified userId")
     public List<FollowerInformationDTO>  getFollowersOfUser(@PathVariable Long userId) {
-        return followerInformationMapper.toFollowerInformationDTOs(retrieveUser(userId).getFollowers());
+        return followerInformationMapper.toFollowerInformationDTOs(retrieveUserEntity(userId).getFollowers());
 
     }
 
 
-    private User retrieveUser(Long userId) {
-        Optional<User> user = userRepository.findById(userId);
+    private UserEntity retrieveUserEntity(Long userId) {
+        Optional<UserEntity> user = userRepository.findById(userId);
         if (!user.isPresent()) {
             String message = String.format("User with ID %s does not exist", userId);
             log.error(message);

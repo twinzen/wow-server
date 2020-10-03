@@ -1,23 +1,21 @@
 package com.wow.server.api;
 
 import com.wow.server.data.model.Product;
-import com.wow.server.data.model.User;
-import com.wow.server.watchitem.WatchItemEntity;
 import com.wow.server.data.repository.ProductRepository;
 import com.wow.server.data.repository.UserRepository;
-import com.wow.server.watchitem.WatchItemRepository;
 import com.wow.server.dto.ProductDTO;
-import com.wow.server.watchitem.WatchItemDTO;
 import com.wow.server.exception.DataNotFoundException;
 import com.wow.server.mapper.ProductMapper;
+import com.wow.server.user.UserEntity;
+import com.wow.server.watchitem.WatchItemDTO;
+import com.wow.server.watchitem.WatchItemEntity;
 import com.wow.server.watchitem.WatchItemMapper;
+import com.wow.server.watchitem.WatchItemRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -43,7 +41,7 @@ public class WatchItemController {
     @Operation(summary = "Returns WatchItem list for given user ID")
     public List<WatchItemDTO> getWatchItemsByUserId(@PathVariable(name = "userId") Long userId) {
 
-        getUser(userId);
+        getUserEntity(userId);
 
         List<WatchItemEntity> watchItemEntityList = watchItemRepository.findAllByUserId(userId);
         Set<Long> productIdList = watchItemEntityList.stream()
@@ -84,7 +82,7 @@ public class WatchItemController {
             @PathVariable(name = "userId") Long userId,
             @RequestParam(name = "productId") Long productId
     ) {
-        getUser(userId);
+        getUserEntity(userId);
         getProduct(productId);
 
         Optional<WatchItemEntity> existingWatchItemEntity = watchItemRepository.findByUserIdAndProductId(userId, productId);
@@ -109,7 +107,7 @@ public class WatchItemController {
             @PathVariable(name = "userId") Long userId,
             @PathVariable(name = "productId") Long productId
     ) {
-        getUser(userId);
+        getUserEntity(userId);
         getProduct(productId);
 
         Optional<WatchItemEntity> watchItemEntity = watchItemRepository.findByUserIdAndProductId(userId, productId);
@@ -122,10 +120,10 @@ public class WatchItemController {
 
     }
 
-    private User getUser(
+    private UserEntity getUserEntity(
             Long userId
     ) {
-        Optional<User> user = userRepository.findById(userId);
+        Optional<UserEntity> user = userRepository.findById(userId);
         if (!user.isPresent()) {
             String message = String.format("User with id %d doesn't exist", userId);
             log.error(message);

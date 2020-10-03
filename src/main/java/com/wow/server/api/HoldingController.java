@@ -2,7 +2,6 @@ package com.wow.server.api;
 
 import com.wow.server.data.model.Holding;
 import com.wow.server.data.model.Product;
-import com.wow.server.data.model.User;
 import com.wow.server.data.repository.HoldingRepository;
 import com.wow.server.data.repository.ProductRepository;
 import com.wow.server.data.repository.UserRepository;
@@ -11,6 +10,7 @@ import com.wow.server.dto.ProductDTO;
 import com.wow.server.exception.DataNotFoundException;
 import com.wow.server.mapper.HoldingMapper;
 import com.wow.server.mapper.ProductMapper;
+import com.wow.server.user.UserEntity;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -53,7 +53,7 @@ public class HoldingController {
     @GetMapping("/{userId:\\d+}")
     @Operation(summary = "Returns Holding list for given user ID")
     public List<HoldingDTO> getHoldingsByUserId(@PathVariable(name = "userId") Long userId) {
-        Optional<User> user = userRepository.findById(userId);
+        Optional<UserEntity> user = userRepository.findById(userId);
         if (!user.isPresent()) {
             String message = String.format("User with id %d doesn't exist", userId);
             log.error(message);

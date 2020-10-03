@@ -1,14 +1,10 @@
 package com.wow.server.user.following;
 
-import com.wow.server.data.model.User;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.ManyToAny;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "TB_FOLLOW")
