@@ -81,8 +81,8 @@ public class WatchItemController {
     @Operation(summary = "Add item to watch for user")
     @ResponseStatus(HttpStatus.CREATED)
     public void addItemToWatch(
-    @PathVariable(name = "userId") Long userId,
-    @RequestParam(name = "productId") Long productId
+            @PathVariable(name = "userId") Long userId,
+            @RequestParam(name = "productId") Long productId
     ) {
         getUser(userId);
         getProduct(productId);
