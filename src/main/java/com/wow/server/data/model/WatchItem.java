@@ -17,12 +17,13 @@ import javax.persistence.Table;
 @Setter
 public class WatchItem {
 
-	@Id @GeneratedValue(strategy = GenerationType.AUTO)
-	Long watchItemId;
-	Long productId;
-	Long userId;
-	LocalDateTime creationDateTime;
-	LocalDateTime updateDateTime;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    Long watchItemId;
+    Long productId;
+    Long userId;
+    LocalDateTime creationDateTime;
+    LocalDateTime updateDateTime;
 
-	
+
 }

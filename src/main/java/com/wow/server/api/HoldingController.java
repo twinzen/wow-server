@@ -1,16 +1,16 @@
-package com.wow.server.controller;
+package com.wow.server.api;
 
+import com.wow.server.data.model.Holding;
 import com.wow.server.data.model.Product;
 import com.wow.server.data.model.User;
-import com.wow.server.data.model.WatchItem;
+import com.wow.server.data.repository.HoldingRepository;
 import com.wow.server.data.repository.ProductRepository;
 import com.wow.server.data.repository.UserRepository;
-import com.wow.server.data.repository.WatchItemRepository;
+import com.wow.server.dto.HoldingDTO;
 import com.wow.server.dto.ProductDTO;
-import com.wow.server.dto.WatchItemDTO;
 import com.wow.server.exception.DataNotFoundException;
+import com.wow.server.mapper.HoldingMapper;
 import com.wow.server.mapper.ProductMapper;
-import com.wow.server.mapper.WatchItemMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -26,33 +26,33 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/watchitems")
-@Tag(name = "Watch Items API")
-public class WatchItemController {
+@RequestMapping("/api/holdings")
+@Tag(name = "Holdings API")
+public class HoldingController {
 
     private final UserRepository userRepository;
-    private final WatchItemRepository watchItemRepository;
+    private final HoldingRepository holdingRepository;
     private final ProductRepository productRepository;
-    private final WatchItemMapper watchItemMapper;
+    private final HoldingMapper holdingMapper;
     private final ProductMapper productMapper;
 
     @Autowired
-    public WatchItemController(
+    public HoldingController(
             UserRepository userRepository,
-            WatchItemRepository watchItemRepository,
+            HoldingRepository holdingRepository,
             ProductRepository productRepository,
-            WatchItemMapper watchItemMapper,
+            HoldingMapper holdingMapper,
             ProductMapper productMapper) {
         this.userRepository = userRepository;
-        this.watchItemRepository = watchItemRepository;
+        this.holdingRepository = holdingRepository;
         this.productRepository = productRepository;
-        this.watchItemMapper = watchItemMapper;
+        this.holdingMapper = holdingMapper;
         this.productMapper = productMapper;
     }
 
     @GetMapping("/{userId:\\d+}")
-    @Operation(summary = "Returns WatchItem list for given user ID")
-    public List<WatchItemDTO> getWatchItemsByUserId(@PathVariable(name = "userId") Long userId) {
+    @Operation(summary = "Returns Holding list for given user ID")
+    public List<HoldingDTO> getHoldingsByUserId(@PathVariable(name = "userId") Long userId) {
         Optional<User> user = userRepository.findById(userId);
         if (!user.isPresent()) {
             String message = String.format("User with id %d doesn't exist", userId);
@@ -60,9 +60,9 @@ public class WatchItemController {
             throw new DataNotFoundException(message);
         }
 
-        List<WatchItem> watchItemList = watchItemRepository.findAllByUserId(userId);
-        Set<Long> productIdList = watchItemList.stream()
-                .map(WatchItem::getProductId)
+        List<Holding> holdingList = holdingRepository.findAllByUserId(userId);
+        Set<Long> productIdList = holdingList.stream()
+                .map(Holding::getProductId)
                 .collect(Collectors.toSet());
 
         if (productIdList.isEmpty()) {
@@ -70,7 +70,7 @@ public class WatchItemController {
         }
 
         List<Product> productList = productRepository.findAllByProductIdIn(productIdList);
-        if (productList.isEmpty() && !watchItemList.isEmpty()) {
+        if (productList.isEmpty() && !holdingList.isEmpty()) {
             String message = String.format(
                     "Can't find Products for following productIds: %s", productIdList.stream()
                             .map(String::valueOf)
@@ -78,14 +78,13 @@ public class WatchItemController {
             throw new IllegalStateException(message);
         }
 
-        List<WatchItemDTO> watchItemDTOList = watchItemMapper.toWatchItemDTOs(watchItemList);
+        List<HoldingDTO> holdingDTOList = holdingMapper.toHoldingDTOs(holdingList);
         Map<Long, ProductDTO> productDTOMap = productMapper.toProductDTOs(productList).stream()
                 .collect(Collectors.toMap(ProductDTO::getProductId, Function.identity()));
 
-        watchItemDTOList.forEach(watchItemDTO ->
-                watchItemDTO.setProduct(productDTOMap.get(watchItemDTO.getProductId())));
+        holdingDTOList.forEach(holdingDTO -> holdingDTO.setProduct(productDTOMap.get(holdingDTO.getProductId())));
 
-        return watchItemDTOList;
+        return holdingDTOList;
     }
 
 }

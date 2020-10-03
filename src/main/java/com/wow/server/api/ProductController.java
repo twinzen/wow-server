@@ -1,4 +1,4 @@
-package com.wow.server.controller;
+package com.wow.server.api;
 
 import com.wow.server.data.repository.ProductRepository;
 import com.wow.server.dto.ProductDTO;

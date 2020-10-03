@@ -13,19 +13,20 @@ import java.time.LocalDateTime;
 @Setter
 public class Holding {
 
-	@Id @GeneratedValue(strategy = GenerationType.AUTO)
-	Long holdingId;
-	
-	Long productId;
-	
-	Long userId;
-	
-	BigDecimal quantity;
-	
-	BigDecimal avgPurchasePrice;
-	
-	LocalDateTime creationDateTime;
-	
-	LocalDateTime updateDateTime;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    Long holdingId;
+
+    Long productId;
+
+    Long userId;
+
+    BigDecimal quantity;
+
+    BigDecimal avgPurchasePrice;
+
+    LocalDateTime creationDateTime;
+
+    LocalDateTime updateDateTime;
 
 }
