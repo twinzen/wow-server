@@ -1,0 +1,6 @@
+symbol,name,price,change,change_percentage,market_captial,trailing_p_e,revenue,volume,total_cash,total_debt_column,5_year_average_dividend_yield,sector,industry,product_alternative_code
+1299.HK,AIA Group Limited,77.65,1.0,+1.30,938866000000000.0,22.23,43.09B,17351000.0,87.25B,9.39B,1.46,Financial Services,Insurance—Life,01299
+insert into (productCode,productName,marketCap,avgVolume,peRatio,revenue,totalCash,totalDevidendYield,avgDividendYield,sector,industry,price,priceOneDayChange,creationDateTime,updateDateTime) values ('aa','bb',9.9,8.8,7.7,6.6,5.5,4.4,3.3,'cc','dd',2.2,1.1,current_timestamp ,current_timestamp );
+
+
+insert into (productCode,productName,marketCap,avgVolume,peRatio,revenue,totalCash,totalDevidendYield,avgDividendYield,sector,industry,price,priceOneDayChange,creationDateTime,updateDateTime) values ('1299.HK','AIA Group Limited','938866000000000.0','17351000','22.23','43.09','87.25','9.39','1.46','Financial Services','Insurance—Life','77.65','1',system_time,system_time );
