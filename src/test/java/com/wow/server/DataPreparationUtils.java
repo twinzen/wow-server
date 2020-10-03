@@ -3,12 +3,12 @@ package com.wow.server;
 import com.wow.server.data.model.Holding;
 import com.wow.server.data.model.Product;
 import com.wow.server.data.model.User;
-import com.wow.server.data.model.WatchItem;
+import com.wow.server.watchitem.WatchItemEntity;
 import com.wow.server.data.projection.UserMinimalProjection;
 import com.wow.server.data.repository.HoldingRepository;
 import com.wow.server.data.repository.ProductRepository;
 import com.wow.server.data.repository.UserRepository;
-import com.wow.server.data.repository.WatchItemRepository;
+import com.wow.server.watchitem.WatchItemRepository;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.math.BigDecimal;
@@ -78,17 +78,17 @@ public final class DataPreparationUtils {
 
     public static void mockWatchItemRepositoryResponse(
             long userId, List<Pair<Long, Long>> productIds, WatchItemRepository watchItemRepository) {
-        List<WatchItem> watchItems = productIds.stream()
+        List<WatchItemEntity> watchItemEntities = productIds.stream()
                 .map(holdingProductId -> {
-                    WatchItem watchItem = new WatchItem();
-                    watchItem.setUserId(userId);
-                    watchItem.setWatchItemId(holdingProductId.getLeft());
-                    watchItem.setProductId(holdingProductId.getRight());
-                    watchItem.setCreationDateTime(LocalDateTime.now());
-                    watchItem.setUpdateDateTime(LocalDateTime.now());
-                    return watchItem;
+                    WatchItemEntity watchItemEntity = new WatchItemEntity();
+                    watchItemEntity.setUserId(userId);
+                    watchItemEntity.setWatchItemId(holdingProductId.getLeft());
+                    watchItemEntity.setProductId(holdingProductId.getRight());
+                    watchItemEntity.setCreationDateTime(LocalDateTime.now());
+                    watchItemEntity.setUpdateDateTime(LocalDateTime.now());
+                    return watchItemEntity;
                 })
                 .collect(Collectors.toList());
-        when(watchItemRepository.findAllByUserId(userId)).thenReturn(watchItems);
+        when(watchItemRepository.findAllByUserId(userId)).thenReturn(watchItemEntities);
     }
 }

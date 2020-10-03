@@ -1,4 +1,4 @@
-package com.wow.server.data.model;
+package com.wow.server.watchitem;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -15,10 +15,10 @@ import javax.persistence.Table;
 @Table(name = "TB_WATCH_ITEM")
 @Getter
 @Setter
-public class WatchItem {
+public class WatchItemEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long watchItemId;
     Long productId;
     Long userId;
