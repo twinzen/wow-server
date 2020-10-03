@@ -24,7 +24,7 @@ public class WatchItemEntityRepositoryTest {
     @Test
     public void existing_watch_item_can_be_found_by_user_id() {
         // given
-        long userId = 1L;
+        long userId = 999L;
         WatchItemEntity watchItemEntity = new WatchItemEntity();
         watchItemEntity.setUserId(userId);
         watchItemEntity.setProductId(100L);
