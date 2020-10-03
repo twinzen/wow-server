@@ -17,7 +17,7 @@ import javax.persistence.Table;
 @Setter
 public class Follow {
 
-	@Id @GeneratedValue(strategy = GenerationType.AUTO)
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long followId;
 	Long followingUserId;
 	Long followerUserId;

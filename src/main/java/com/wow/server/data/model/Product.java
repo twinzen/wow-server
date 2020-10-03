@@ -18,36 +18,22 @@ import javax.persistence.Table;
 @Setter
 public class Product {
 
-	@Id @GeneratedValue(strategy = GenerationType.AUTO)
-	Long productId;
-	
-	String productCode;
-	
-	String productName;
-	
-	BigDecimal marketCap;
-	
-	BigDecimal avgVolume;
-	
-	BigDecimal peRatio;
-	
-	BigDecimal revenue;
-	
-	BigDecimal totalCash;
-	
-	BigDecimal totalDevidendYield;
-	
-	BigDecimal avgDividendYield;
-	
-	String sector;
-	
-	String industry;
-	
-	BigDecimal price;
-	
-	BigDecimal priceOneDayChange;
-	
-	LocalDateTime creationDateTime;
-	
-	LocalDateTime updateDateTime;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long productId;
+	private String productCode;
+	private String productName;
+	private BigDecimal marketCap;
+	private BigDecimal avgVolume;
+	private BigDecimal peRatio;
+	private BigDecimal revenue;
+	private BigDecimal totalCash;
+	private BigDecimal totalDevidendYield;
+	private BigDecimal avgDividendYield;
+	private String sector;
+	private String industry;
+	private BigDecimal price;
+	private BigDecimal priceOneDayChange;
+	private LocalDateTime creationDateTime;
+	private LocalDateTime updateDateTime;
 }

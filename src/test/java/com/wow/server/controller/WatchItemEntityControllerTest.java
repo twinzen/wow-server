@@ -3,9 +3,9 @@ package com.wow.server.controller;
 import com.wow.server.DataPreparationUtils;
 import com.wow.server.data.repository.ProductRepository;
 import com.wow.server.data.repository.UserRepository;
-import com.wow.server.data.repository.WatchItemRepository;
+import com.wow.server.watch_item.WatchItemMapperImpl;
+import com.wow.server.watch_item.WatchItemRepository;
 import com.wow.server.mapper.ProductMapperImpl;
-import com.wow.server.mapper.WatchItemMapperImpl;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.assertj.core.util.Lists;
@@ -35,7 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         ProductMapperImpl.class})
 @WebMvcTest
 @ActiveProfiles("test")
-public class WatchItemControllerTest {
+public class WatchItemEntityControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
