@@ -1,7 +1,7 @@
 package com.wow.server.data.repository;
 
-import com.wow.server.user.UserMinimalProjection;
 import com.wow.server.user.UserEntity;
+import com.wow.server.user.UserMinimalProjection;
 import com.wow.server.user.UserRepository;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;

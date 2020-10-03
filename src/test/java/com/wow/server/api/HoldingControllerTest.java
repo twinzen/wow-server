@@ -1,11 +1,11 @@
 package com.wow.server.api;
 
 import com.wow.server.DataPreparationUtils;
+import com.wow.server.holding.HoldingMapperImpl;
 import com.wow.server.holding.HoldingRepository;
+import com.wow.server.product.ProductMapperImpl;
 import com.wow.server.product.ProductRepository;
 import com.wow.server.user.UserRepository;
-import com.wow.server.mapper.HoldingMapperImpl;
-import com.wow.server.mapper.ProductMapperImpl;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.assertj.core.util.Lists;
@@ -29,7 +29,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureMockMvc
-@ContextConfiguration(classes = {HoldingController.class, HoldingMapperImpl.class, ProductMapperImpl.class})
+@ContextConfiguration(classes = {
+        HoldingController.class,
+        HoldingMapperImpl.class,
+        ProductMapperImpl.class
+})
 @WebMvcTest
 @ActiveProfiles("test")
 public class HoldingControllerTest {

@@ -1,20 +1,20 @@
 package com.wow.server.api;
 
-import com.wow.server.holding.HoldingEntity;
-import com.wow.server.product.ProductEntity;
-import com.wow.server.holding.HoldingRepository;
-import com.wow.server.product.ProductRepository;
-import com.wow.server.user.UserRepository;
-import com.wow.server.holding.HoldingDTO;
-import com.wow.server.product.ProductDTO;
 import com.wow.server.exception.DataNotFoundException;
+import com.wow.server.holding.HoldingDTO;
+import com.wow.server.holding.HoldingEntity;
 import com.wow.server.holding.HoldingMapper;
+import com.wow.server.holding.HoldingRepository;
+import com.wow.server.product.ProductDTO;
+import com.wow.server.product.ProductEntity;
 import com.wow.server.product.ProductMapper;
+import com.wow.server.product.ProductRepository;
 import com.wow.server.user.UserEntity;
+import com.wow.server.user.UserRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +28,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/holdings")
 @Tag(name = "Holdings API")
+@RequiredArgsConstructor
 public class HoldingController {
 
     private final UserRepository userRepository;
@@ -36,23 +37,11 @@ public class HoldingController {
     private final HoldingMapper holdingMapper;
     private final ProductMapper productMapper;
 
-    @Autowired
-    public HoldingController(
-            UserRepository userRepository,
-            HoldingRepository holdingRepository,
-            ProductRepository productRepository,
-            HoldingMapper holdingMapper,
-            ProductMapper productMapper) {
-        this.userRepository = userRepository;
-        this.holdingRepository = holdingRepository;
-        this.productRepository = productRepository;
-        this.holdingMapper = holdingMapper;
-        this.productMapper = productMapper;
-    }
-
     @GetMapping("/{userId:\\d+}")
     @Operation(summary = "Returns Holding list for given user ID")
-    public List<HoldingDTO> getHoldingsByUserId(@PathVariable(name = "userId") Long userId) {
+    public List<HoldingDTO> getHoldingsByUserId(
+            @PathVariable(name = "userId") Long userId
+    ) {
         Optional<UserEntity> user = userRepository.findById(userId);
         if (!user.isPresent()) {
             String message = String.format("User with id %d doesn't exist", userId);

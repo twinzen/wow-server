@@ -1,9 +1,9 @@
 package com.wow.server.api;
 
 import com.wow.server.DataPreparationUtils;
-import com.wow.server.user.UserRepository;
 import com.wow.server.user.UserMapperImpl;
 import com.wow.server.user.UserMinimalMapperImpl;
+import com.wow.server.user.UserRepository;
 import com.wow.server.user.following.FollowerInformationMapperImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

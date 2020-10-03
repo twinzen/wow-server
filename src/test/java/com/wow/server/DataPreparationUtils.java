@@ -1,12 +1,12 @@
 package com.wow.server;
 
 import com.wow.server.holding.HoldingEntity;
-import com.wow.server.product.ProductEntity;
-import com.wow.server.user.UserMinimalProjection;
 import com.wow.server.holding.HoldingRepository;
+import com.wow.server.product.ProductEntity;
 import com.wow.server.product.ProductRepository;
-import com.wow.server.user.UserRepository;
 import com.wow.server.user.UserEntity;
+import com.wow.server.user.UserMinimalProjection;
+import com.wow.server.user.UserRepository;
 import com.wow.server.watchitem.WatchItemEntity;
 import com.wow.server.watchitem.WatchItemRepository;
 import org.apache.commons.lang3.tuple.Pair;

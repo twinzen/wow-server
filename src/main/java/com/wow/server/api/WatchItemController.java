@@ -1,12 +1,12 @@
 package com.wow.server.api;
 
-import com.wow.server.product.ProductEntity;
-import com.wow.server.product.ProductRepository;
-import com.wow.server.user.UserRepository;
-import com.wow.server.product.ProductDTO;
 import com.wow.server.exception.DataNotFoundException;
+import com.wow.server.product.ProductDTO;
+import com.wow.server.product.ProductEntity;
 import com.wow.server.product.ProductMapper;
+import com.wow.server.product.ProductRepository;
 import com.wow.server.user.UserEntity;
+import com.wow.server.user.UserRepository;
 import com.wow.server.watchitem.WatchItemDTO;
 import com.wow.server.watchitem.WatchItemEntity;
 import com.wow.server.watchitem.WatchItemMapper;
@@ -39,7 +39,9 @@ public class WatchItemController {
 
     @GetMapping("/{userId:\\d+}")
     @Operation(summary = "Returns WatchItem list for given user ID")
-    public List<WatchItemDTO> getWatchItemsByUserId(@PathVariable(name = "userId") Long userId) {
+    public List<WatchItemDTO> getWatchItemsByUserId(
+            @PathVariable(name = "userId") Long userId
+    ) {
 
         getUserEntity(userId);
 
@@ -72,9 +74,6 @@ public class WatchItemController {
     }
 
 
-
-
-
     @PostMapping("/{userId:\\d+}")
     @Operation(summary = "Add item to watch for user")
     @ResponseStatus(HttpStatus.CREATED)
@@ -97,7 +96,6 @@ public class WatchItemController {
         newWatchItemEntity.setCreationDateTime(LocalDateTime.now());
 
         watchItemRepository.save(newWatchItemEntity);
-
     }
 
     @DeleteMapping("/{userId:\\d+}/watchedProduct/{productId:\\d+}")
@@ -117,7 +115,6 @@ public class WatchItemController {
         }
 
         watchItemRepository.deleteById(watchItemEntity.get().getWatchItemId());
-
     }
 
     private UserEntity getUserEntity(

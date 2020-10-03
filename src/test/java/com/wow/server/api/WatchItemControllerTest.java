@@ -1,11 +1,11 @@
 package com.wow.server.api;
 
 import com.wow.server.DataPreparationUtils;
+import com.wow.server.product.ProductMapperImpl;
 import com.wow.server.product.ProductRepository;
 import com.wow.server.user.UserRepository;
 import com.wow.server.watchitem.WatchItemMapperImpl;
 import com.wow.server.watchitem.WatchItemRepository;
-import com.wow.server.mapper.ProductMapperImpl;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.assertj.core.util.Lists;
@@ -32,7 +32,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ContextConfiguration(classes = {
         WatchItemController.class,
         WatchItemMapperImpl.class,
-        ProductMapperImpl.class})
+        ProductMapperImpl.class
+})
 @WebMvcTest
 @ActiveProfiles("test")
 public class WatchItemControllerTest {

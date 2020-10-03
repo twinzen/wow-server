@@ -14,19 +14,13 @@ import java.time.LocalDateTime;
 public class HoldingEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    Long holdingId;
-
-    Long productId;
-
-    Long userId;
-
-    BigDecimal quantity;
-
-    BigDecimal avgPurchasePrice;
-
-    LocalDateTime creationDateTime;
-
-    LocalDateTime updateDateTime;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long holdingId;
+    private Long productId;
+    private Long userId;
+    private BigDecimal quantity;
+    private BigDecimal avgPurchasePrice;
+    private LocalDateTime creationDateTime;
+    private LocalDateTime updateDateTime;
 
 }

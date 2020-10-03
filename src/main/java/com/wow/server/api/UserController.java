@@ -1,6 +1,5 @@
 package com.wow.server.api;
 
-import com.wow.server.user.UserRepository;
 import com.wow.server.exception.DataNotFoundException;
 import com.wow.server.user.*;
 import com.wow.server.user.following.FollowerInformationDTO;
@@ -37,14 +36,18 @@ public class UserController {
 
     @GetMapping("/{userId:\\d+}")
     @Operation(summary = "Returns detailed user representation by userID")
-    public UserDTO getUserById(@PathVariable Long userId) {
+    public UserDTO getUserById(
+            @PathVariable Long userId
+    ) {
 
         return userMapper.toUserDTO(retrieveUserEntity(userId));
     }
 
     @GetMapping("/{userId:\\d+}/following")
     @Operation(summary = "Returns list of users followed by user with specified userId")
-    public List<FollowerInformationDTO>  getFollowedUsersOf(@PathVariable Long userId) {
+    public List<FollowerInformationDTO>  getFollowedUsersOf(
+            @PathVariable Long userId
+    ) {
         return followerInformationMapper.toFollowerInformationDTOs(retrieveUserEntity(userId).getFollowing());
 
     }
@@ -52,13 +55,17 @@ public class UserController {
 
     @GetMapping("/{userId:\\d+}/followers")
     @Operation(summary = "Returns list of users following specified userId")
-    public List<FollowerInformationDTO>  getFollowersOfUser(@PathVariable Long userId) {
+    public List<FollowerInformationDTO>  getFollowersOfUser(
+            @PathVariable Long userId
+    ) {
         return followerInformationMapper.toFollowerInformationDTOs(retrieveUserEntity(userId).getFollowers());
 
     }
 
 
-    private UserEntity retrieveUserEntity(Long userId) {
+    private UserEntity retrieveUserEntity(
+            Long userId
+    ) {
         Optional<UserEntity> user = userRepository.findById(userId);
         if (!user.isPresent()) {
             String message = String.format("User with ID %s does not exist", userId);

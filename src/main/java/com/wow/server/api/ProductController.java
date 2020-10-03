@@ -1,13 +1,13 @@
 package com.wow.server.api;
 
-import com.wow.server.product.ProductRepository;
-import com.wow.server.product.ProductDTO;
 import com.wow.server.exception.BadRequestException;
+import com.wow.server.product.ProductDTO;
 import com.wow.server.product.ProductMapper;
+import com.wow.server.product.ProductRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,22 +20,17 @@ import java.util.Set;
 @RestController
 @RequestMapping("/api/products")
 @Tag(name = "Get Products API")
+@RequiredArgsConstructor
 public class ProductController {
 
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
 
-    @Autowired
-    public ProductController(
-            ProductRepository productRepository,
-            ProductMapper productMapper) {
-        this.productRepository = productRepository;
-        this.productMapper = productMapper;
-    }
-
     @PostMapping
     @Operation(summary = "Accepts list of Product IDs in request body and returns Products list")
-    public List<ProductDTO> getProductsByIds(@RequestBody Set<Long> productIds) {
+    public List<ProductDTO> getProductsByIds(
+            @RequestBody Set<Long> productIds
+    ) {
         if (productIds == null || productIds.isEmpty()) {
             String message = "List of productIds is empty";
             log.error(message);
