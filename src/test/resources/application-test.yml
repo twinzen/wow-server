@@ -7,6 +7,10 @@ spring:
   h2.console.enabled: true
   jpa: 
     database-platform: org.hibernate.dialect.H2Dialect
-    hibernate.ddl-auto: create-drop
+  liquibase:
+    enabled: true
+    contexts: prod, test
+    parameters:
+      textColumnType: VARCHAR(250)
   main:
     banner-mode: off

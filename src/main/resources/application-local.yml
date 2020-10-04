@@ -5,6 +5,10 @@ spring:
     username: sa
     password: password
   h2.console.enabled: true
-  jpa: 
+  jpa:
     database-platform: org.hibernate.dialect.H2Dialect
-    hibernate.ddl-auto: update
+  liquibase:
+    enabled: true
+    contexts: prod, test
+    parameters:
+      textColumnType: VARCHAR(250)

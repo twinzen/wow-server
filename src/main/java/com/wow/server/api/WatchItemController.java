@@ -1,9 +1,7 @@
 package com.wow.server.api;
 
 import com.wow.server.exception.DataNotFoundException;
-import com.wow.server.product.ProductDTO;
 import com.wow.server.product.ProductEntity;
-import com.wow.server.product.ProductMapper;
 import com.wow.server.product.ProductRepository;
 import com.wow.server.user.UserEntity;
 import com.wow.server.user.UserRepository;
@@ -19,9 +17,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -34,45 +31,15 @@ public class WatchItemController {
     private final WatchItemRepository watchItemRepository;
     private final ProductRepository productRepository;
     private final WatchItemMapper watchItemMapper;
-    private final ProductMapper productMapper;
-
 
     @GetMapping("/{userId:\\d+}")
     @Operation(summary = "Returns WatchItem list for given user ID")
     public List<WatchItemDTO> getWatchItemsByUserId(
             @PathVariable(name = "userId") Long userId
     ) {
-
-        getUserEntity(userId);
-
-        List<WatchItemEntity> watchItemEntityList = watchItemRepository.findAllByUserId(userId);
-        Set<Long> productIdList = watchItemEntityList.stream()
-                .map(WatchItemEntity::getProductId)
-                .collect(Collectors.toSet());
-
-        if (productIdList.isEmpty()) {
-            return Collections.emptyList();
-        }
-
-        List<ProductEntity> productEntityList = productRepository.findAllByProductIdIn(productIdList);
-        if (productEntityList.isEmpty() && !watchItemEntityList.isEmpty()) {
-            String message = String.format(
-                    "Can't find Products for following productIds: %s", productIdList.stream()
-                            .map(String::valueOf)
-                            .collect(Collectors.joining(",")));
-            throw new IllegalStateException(message);
-        }
-
-        List<WatchItemDTO> watchItemDTOList = watchItemMapper.toWatchItemDTOs(watchItemEntityList);
-        Map<Long, ProductDTO> productDTOMap = productMapper.toProductDTOs(productEntityList).stream()
-                .collect(Collectors.toMap(ProductDTO::getProductId, Function.identity()));
-
-        watchItemDTOList.forEach(watchItemDTO ->
-                watchItemDTO.setProduct(productDTOMap.get(watchItemDTO.getProductId())));
-
-        return watchItemDTOList;
+        UserEntity userEntity = getUserEntity(userId);
+        return watchItemMapper.toWatchItemDTOs(userEntity.getWatchItems());
     }
-
 
     @PostMapping("/{userId:\\d+}")
     @Operation(summary = "Add item to watch for user")
@@ -81,21 +48,20 @@ public class WatchItemController {
             @PathVariable(name = "userId") Long userId,
             @RequestParam(name = "productId") Long productId
     ) {
-        getUserEntity(userId);
-        getProduct(productId);
+        UserEntity userEntity = getUserEntity(userId);
+        ProductEntity productEntity = getProduct(productId);
 
         Optional<WatchItemEntity> existingWatchItemEntity = watchItemRepository.findByUserIdAndProductId(userId, productId);
-        if (!existingWatchItemEntity.isPresent()) {
+        if (existingWatchItemEntity.isPresent()) {
             log.info(String.format("Already watching product %d", productId));
-            return ;
+            return;
         }
 
         WatchItemEntity newWatchItemEntity = new WatchItemEntity();
-        newWatchItemEntity.setProductId(productId);
-        newWatchItemEntity.setUserId(userId);
+        newWatchItemEntity.setProduct(productEntity);
         newWatchItemEntity.setCreationDateTime(LocalDateTime.now());
-
-        watchItemRepository.save(newWatchItemEntity);
+        userEntity.addWatchItem(newWatchItemEntity);
+        userRepository.save(userEntity);
     }
 
     @DeleteMapping("/{userId:\\d+}/watchedProduct/{productId:\\d+}")

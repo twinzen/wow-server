@@ -1,5 +1,7 @@
 package com.wow.server.data.repository;
 
+import com.wow.server.product.ProductRepository;
+import com.wow.server.user.UserRepository;
 import com.wow.server.watchitem.WatchItemEntity;
 import com.wow.server.watchitem.WatchItemRepository;
 import org.hamcrest.Matchers;
@@ -20,14 +22,18 @@ public class WatchItemEntityRepositoryTest {
 
     @Autowired
     private WatchItemRepository watchItemRepository;
+    @Autowired
+    private ProductRepository productRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @Test
     public void existing_watch_item_can_be_found_by_user_id() {
         // given
-        long userId = 999L;
+        long userId = 5L;
         WatchItemEntity watchItemEntity = new WatchItemEntity();
-        watchItemEntity.setUserId(userId);
-        watchItemEntity.setProductId(100L);
+        watchItemEntity.setUser(userRepository.getOne(userId));
+        watchItemEntity.setProduct(productRepository.getOne(10L));
         WatchItemEntity savedWatchItemEntity = watchItemRepository.save(watchItemEntity);
         assertNotNull(savedWatchItemEntity);
         assertNotNull(savedWatchItemEntity.getWatchItemId());

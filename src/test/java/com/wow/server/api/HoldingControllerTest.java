@@ -2,9 +2,7 @@ package com.wow.server.api;
 
 import com.wow.server.DataPreparationUtils;
 import com.wow.server.holding.HoldingMapperImpl;
-import com.wow.server.holding.HoldingRepository;
 import com.wow.server.product.ProductMapperImpl;
-import com.wow.server.product.ProductRepository;
 import com.wow.server.user.UserRepository;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
@@ -43,10 +41,6 @@ public class HoldingControllerTest {
 
     @MockBean
     private UserRepository userRepository;
-    @MockBean
-    private HoldingRepository holdingRepository;
-    @MockBean
-    private ProductRepository productRepository;
 
     @Test
     public void endpoint_can_return_data_successfully() throws Exception {
@@ -55,11 +49,7 @@ public class HoldingControllerTest {
         List<Pair<Long, Long>> productIds = Lists.newArrayList(
                 ImmutablePair.of(1L, 34567L),
                 ImmutablePair.of(2L, 34568L));
-        DataPreparationUtils.mockUserRepositoryResponse(userId, userRepository);
-        DataPreparationUtils.mockHoldingRepositoryResponse(userId, productIds, holdingRepository);
-        DataPreparationUtils.mockProductRepositoryResponse(productIds.stream()
-                .map(Pair::getRight)
-                .collect(Collectors.toSet()), productRepository);
+        DataPreparationUtils.mockUserRepositoryResponse(userId, productIds, userRepository);
 
         // when
         ResultActions result = mockMvc.perform(get("/api/holdings/{userid}", userId)

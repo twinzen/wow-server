@@ -1,5 +1,7 @@
 package com.wow.server.user;
 
+import com.wow.server.holding.HoldingEntity;
+import com.wow.server.watchitem.WatchItemEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -39,10 +41,45 @@ public class UserEntity {
             joinColumns = @JoinColumn(name = "userId"),
             inverseJoinColumns = @JoinColumn(name = "followerId")
     )
-    public List<UserEntity> following;
-
+    private List<UserEntity> following;
 
     @ManyToMany(mappedBy = "following", fetch = FetchType.LAZY)
-    public List<UserEntity> followers;
+    private List<UserEntity> followers;
+
+    @OneToMany(
+            mappedBy = "user",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            orphanRemoval = true
+    )
+    private List<HoldingEntity> holdings;
+
+    @OneToMany(
+            mappedBy = "user",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            orphanRemoval = true
+    )
+    private List<WatchItemEntity> watchItems;
+
+    public void addHolding(HoldingEntity holding) {
+        holdings.add(holding);
+        holding.setUser(this);
+    }
+
+    public void removeHolding(HoldingEntity holding) {
+        holdings.remove(holding);
+        holding.setUser(null);
+    }
+
+    public void addWatchItem(WatchItemEntity watchItem) {
+        watchItems.add(watchItem);
+        watchItem.setUser(this);
+    }
+
+    public void removeWatchItem(WatchItemEntity watchItem) {
+        watchItems.remove(watchItem);
+        watchItem.setUser(null);
+    }
 
 }
