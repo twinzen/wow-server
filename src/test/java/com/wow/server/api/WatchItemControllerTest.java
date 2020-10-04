@@ -55,11 +55,7 @@ public class WatchItemControllerTest {
         List<Pair<Long, Long>> productIds = Lists.newArrayList(
                 ImmutablePair.of(1L, 34567L),
                 ImmutablePair.of(2L, 34568L));
-        DataPreparationUtils.mockUserRepositoryResponse(userId, userRepository);
-        DataPreparationUtils.mockWatchItemRepositoryResponse(userId, productIds, watchItemRepository);
-        DataPreparationUtils.mockProductRepositoryResponse(productIds.stream()
-                .map(Pair::getRight)
-                .collect(Collectors.toSet()), productRepository);
+        DataPreparationUtils.mockUserRepositoryResponse(userId, productIds, userRepository);
 
         // when
         ResultActions result = mockMvc.perform(get("/api/watchitems/{userid}", userId)

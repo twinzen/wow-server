@@ -39,7 +39,6 @@ public class UserController {
     public UserDTO getUserById(
             @PathVariable Long userId
     ) {
-
         return userMapper.toUserDTO(retrieveUserEntity(userId));
     }
 
@@ -49,9 +48,7 @@ public class UserController {
             @PathVariable Long userId
     ) {
         return followerInformationMapper.toFollowerInformationDTOs(retrieveUserEntity(userId).getFollowing());
-
     }
-
 
     @GetMapping("/{userId:\\d+}/followers")
     @Operation(summary = "Returns list of users following specified userId")
@@ -59,9 +56,7 @@ public class UserController {
             @PathVariable Long userId
     ) {
         return followerInformationMapper.toFollowerInformationDTOs(retrieveUserEntity(userId).getFollowers());
-
     }
-
 
     private UserEntity retrieveUserEntity(
             Long userId

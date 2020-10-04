@@ -1,0 +1,316 @@
+databaseChangeLog:
+- changeSet:
+    id: create-table-user
+    author: developer
+    context: prod
+    preConditions:
+    - onFail: MARK_RAN
+      not:
+        tableExists:
+          tableName: TB_USER
+    changes:
+    - createTable:
+        tableName: TB_USER
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+            name: USER_ID
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+            name: USER_NAME
+            type: ${textColumnType}
+        - column:
+            constraints:
+              nullable: false
+            name: DISPLAY_NAME
+            type: ${textColumnType}
+        - column:
+            name: EMAIL
+            type: ${textColumnType}
+        - column:
+            name: PASSWORD
+            type: ${textColumnType}
+        - column:
+            name: DATE_OF_BIRTH
+            type: DATE
+        - column:
+            name: EDUCATION_LEVEL
+            type: ${textColumnType}
+        - column:
+            name: FIRST_TRADE_DATE
+            type: DATE
+        - column:
+            name: HAVE_CHILD
+            type: ${textColumnType}
+        - column:
+            name: INTRODUCTION
+            type: ${textColumnType}
+        - column:
+            name: MARITAL_STATUS
+            type: ${textColumnType}
+        - column:
+            name: MONTHLY_INCOME_RANGE
+            type: ${textColumnType}
+        - column:
+            name: RISK_PROFILE
+            type: INTEGER
+        - column:
+            name: ASSET_SIZE_RANGE
+            type: ${textColumnType}
+        - column:
+            name: CREATION_DATE_TIME
+            type: TIMESTAMP
+        - column:
+            name: UPDATE_DATE_TIME
+            type: TIMESTAMP
+
+- changeSet:
+    id: create-table-product
+    author: developer
+    context: prod
+    preConditions:
+    - onFail: MARK_RAN
+      not:
+        tableExists:
+          tableName: TB_PRODUCT
+    changes:
+    - createTable:
+        tableName: TB_PRODUCT
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+            name: PRODUCT_ID
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+            name: PRODUCT_NAME
+            type: ${textColumnType}
+        - column:
+            constraints:
+              nullable: false
+            name: PRODUCT_CODE
+            type: ${textColumnType}
+        - column:
+            name: PRICE
+            type: DECIMAL(19,2)
+        - column:
+            name: REVENUE
+            type: DECIMAL(19,2)
+        - column:
+            name: SECTOR
+            type: ${textColumnType}
+        - column:
+            name: INDUSTRY
+            type: ${textColumnType}
+        - column:
+            name: PE_RATIO
+            type: DECIMAL(19,2)
+        - column:
+            name: MARKET_CAP
+            type: DECIMAL(19,2)
+        - column:
+            name: AVG_DIVIDEND_YIELD
+            type: DECIMAL(19,2)
+        - column:
+            name: AVG_VOLUME
+            type: DECIMAL(19,2)
+        - column:
+            name: PRICE_ONE_DAY_CHANGE
+            type: DECIMAL(19,2)
+        - column:
+            name: TOTAL_CASH
+            type: DECIMAL(19,2)
+        - column:
+            name: TOTAL_DEVIDEND_YIELD
+            type: DECIMAL(19,2)
+        - column:
+            name: CREATION_DATE_TIME
+            type: TIMESTAMP
+        - column:
+            name: UPDATE_DATE_TIME
+            type: TIMESTAMP
+
+- changeSet:
+    id: create-table-holding
+    author: developer
+    context: prod
+    preConditions:
+    - onFail: MARK_RAN
+      not:
+        tableExists:
+          tableName: TB_HOLDING
+    changes:
+    - createTable:
+        tableName: TB_HOLDING
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+            name: HOLDING_ID
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+              foreignKeyName: fk_holding_user
+              references: TB_USER(USER_ID)
+            name: USER_ID
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+              foreignKeyName: fk_holding_product
+              references: TB_PRODUCT(PRODUCT_ID)
+            name: PRODUCT_ID
+            type: BIGINT
+        - column:
+            name: QUANTITY
+            type: DECIMAL(19,4)
+        - column:
+            name: AVG_PURCHASE_PRICE
+            type: DECIMAL(19,2)
+        - column:
+            name: CREATION_DATE_TIME
+            type: TIMESTAMP
+        - column:
+            name: UPDATE_DATE_TIME
+            type: TIMESTAMP
+
+- changeSet:
+    id: create-table-watch-item
+    author: developer
+    context: prod
+    preConditions:
+    - onFail: MARK_RAN
+      not:
+        tableExists:
+          tableName: TB_WATCH_ITEM
+    changes:
+    - createTable:
+        tableName: TB_WATCH_ITEM
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+            name: WATCH_ITEM_ID
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+              foreignKeyName: fk_watch_item_user
+              references: TB_USER(USER_ID)
+            name: USER_ID
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+              foreignKeyName: fk_watch_item_product
+              references: TB_PRODUCT(PRODUCT_ID)
+            name: PRODUCT_ID
+            type: BIGINT
+        - column:
+            name: CREATION_DATE_TIME
+            type: TIMESTAMP
+        - column:
+            name: UPDATE_DATE_TIME
+            type: TIMESTAMP
+
+- changeSet:
+    id: create-table-follow
+    author: developer
+    context: prod
+    preConditions:
+    - onFail: MARK_RAN
+      not:
+        tableExists:
+          tableName: TB_FOLLOW
+    changes:
+    - createTable:
+        tableName: TB_FOLLOW
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+            name: FOLLOW_ID
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+              foreignKeyName: fk_follow_user
+              references: TB_USER(USER_ID)
+            name: USER_ID
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+              foreignKeyName: fk_follow_follower
+              references: TB_USER(USER_ID)
+            name: FOLLOWER_ID
+            type: BIGINT
+        - column:
+            name: CREATION_DATE_TIME
+            type: TIMESTAMP
+        - column:
+            name: UPDATE_DATE_TIME
+            type: TIMESTAMP
+
+- changeSet:
+    id: create-table-order
+    author: developer
+    context: prod
+    preConditions:
+    - onFail: MARK_RAN
+      not:
+        tableExists:
+          tableName: TB_ORDER
+    changes:
+    - createTable:
+        tableName: TB_ORDER
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+            name: TRADE_ID
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+            name: USER_ID
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+            name: PRODUCT_ID
+            type: BIGINT
+        - column:
+            name: QUANTITY
+            type: DECIMAL(19,2)
+        - column:
+            name: ORDER_PRICE
+            type: DECIMAL(19,4)
+        - column:
+            name: ORDER_STATUS
+            type: ${textColumnType}
+        - column:
+            name: CREATION_DATE_TIME
+            type: TIMESTAMP
+        - column:
+            name: UPDATE_DATE_TIME
+            type: TIMESTAMP
+

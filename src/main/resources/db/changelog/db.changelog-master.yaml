@@ -1,0 +1,5 @@
+databaseChangeLog:
+- include:
+    file: /db/changelog/schema/create-inital-schema.yaml
+- include:
+    file: /db/changelog/data/load-test-data.sql

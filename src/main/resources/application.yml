@@ -16,9 +16,13 @@ management:
       show-details: always
 
 springdoc:
-  packagesToScan: com.wow.server.controller
+  packagesToScan: com.wow.server.api
   swagger-ui:
     disable-swagger-default-url: true
     path: /swagger-ui.html
   api-docs:
     path: /api-docs
+
+logging:
+  level:
+    "liquibase" : info
